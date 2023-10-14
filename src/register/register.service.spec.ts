@@ -8,6 +8,7 @@ import { InMemoryRegisterRepository } from './repository/in-memory/in-memory-reg
 // função que agrupa testes, é construída com arrow function
 describe('RegisterService', () => {
   let registerService: RegisterService;
+  let repo: RegisterRepository;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -20,12 +21,9 @@ describe('RegisterService', () => {
     }).compile();
 
     registerService = moduleRef.get<RegisterService>(RegisterService);
+    repo = moduleRef.get(RegisterRepository);
   });
   // Create a register:
-  // Teste 1: Deve criar um registro com sucesso
-  // Teste 2: Deve retornar um erro caso os dados estejam incorretos
-
-  // describe é um agrupador de testes
   describe('Create Register', () => {
     beforeEach(() => {
       jest.useFakeTimers();
@@ -70,7 +68,29 @@ describe('RegisterService', () => {
 
   // Update a register
 
-  // Delite a register
+  // Delete a register
 
-  //
+  // Get all register
+  describe('Get All Register', () => {
+    beforeEach(async () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2023-09-23'));
+
+      repo.create({
+        classDate: new Date(),
+        classQuantity: 1,
+        hourValue: 50,
+        studentName: 'Luana',
+      });
+    });
+
+    it('should return all registers', async () => {
+      const response = await registerService.findAll();
+
+      expect(response).toBeDefined();
+      expect(response).toBeInstanceOf(Array);
+      expect(response).toHaveLength(1);
+      expect(response[0]).toHaveProperty('classDate');
+    });
+  });
 });

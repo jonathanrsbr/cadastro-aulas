@@ -15,4 +15,7 @@ export class InMemoryRegisterRepository implements RegisterRepository {
     this.idCounter++;
     return register;
   }
+  async findAll(): Promise<Register[]> {
+    return this.registers;
+  }
 }

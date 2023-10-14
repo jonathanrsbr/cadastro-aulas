@@ -3,6 +3,7 @@ import { Register } from '../entity/register.entity';
 
 export abstract class RegisterRepository {
   abstract create(CreateDto: CreateRegisterDTO): Promise<Register>;
+  abstract findAll(): Promise<Register[]>;
 }
 
 // Estruturas
